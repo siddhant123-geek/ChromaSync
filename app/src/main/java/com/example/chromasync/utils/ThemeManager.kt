@@ -34,7 +34,7 @@ object ThemeManager {
             cornerRadius = CornerStyle.STANDARD.radiusValue,
             fontFamily = FontStyle.DEFAULT.fontFamily,
             isActive = true,
-            lastModified = System.currentTimeMillis()
+            lastModified = 0L
         )
     }
 
@@ -54,7 +54,7 @@ object ThemeManager {
                 cornerRadius = CornerStyle.MINIMAL.radiusValue,
                 fontFamily = FontStyle.DEFAULT.fontFamily,
                 isActive = false,
-                lastModified = System.currentTimeMillis()
+                lastModified = 0L
             ),
 
             // Warm and friendly theme - greens and warm colors
@@ -70,7 +70,7 @@ object ThemeManager {
                 cornerRadius = CornerStyle.ROUNDED.radiusValue,
                 fontFamily = FontStyle.SERIF.fontFamily,
                 isActive = false,
-                lastModified = System.currentTimeMillis()
+                lastModified = 0L
             )
         )
     }
