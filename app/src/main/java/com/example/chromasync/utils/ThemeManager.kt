@@ -1,5 +1,13 @@
 package com.example.chromasync.utils
 
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.example.chromasync.data.models.ColorOptions
 import com.example.chromasync.data.models.CornerStyle
 import com.example.chromasync.data.models.FontStyle
@@ -123,5 +131,54 @@ object ThemeManager {
         val fontName = findFontFamilyOption(profile.fontFamily)?.displayName ?: "Unknown"
 
         return "$primaryColorName primary color, $cornerStyleName corners, $fontName font"
+    }
+
+    fun ThemeProfile.toComposeColorScheme(): ColorScheme {
+        return lightColorScheme(
+            primary = Color(android.graphics.Color.parseColor(primaryColor)),
+            secondary = Color(android.graphics.Color.parseColor(secondaryColor)),
+            surface = Color(android.graphics.Color.parseColor(surfaceColor)),
+            background = Color(android.graphics.Color.parseColor(backgroundColor)),
+            onPrimary = Color.White,
+            onSecondary = Color.White,
+            onSurface = Color(android.graphics.Color.parseColor(primaryTextColor)),
+            onBackground = Color(android.graphics.Color.parseColor(primaryTextColor)),
+            onSurfaceVariant = Color(android.graphics.Color.parseColor(secondaryTextColor))
+        )
+    }
+
+    fun ThemeProfile.toSimpleComposeTypography(): Typography {
+        val fontFamily = when (fontFamily) {
+            "serif" -> FontFamily.Serif
+            "monospace" -> FontFamily.Monospace
+            else -> FontFamily.Default
+        }
+
+        // Start with defaults and only modify what we need
+        val base = Typography()
+
+        return base.copy(
+            // Main content text styles
+            bodyLarge = base.bodyLarge.copy(fontFamily = fontFamily),
+            bodyMedium = base.bodyMedium.copy(fontFamily = fontFamily),
+
+            // Header text styles
+            headlineLarge = base.headlineLarge.copy(fontFamily = fontFamily),
+            headlineMedium = base.headlineMedium.copy(fontFamily = fontFamily),
+
+            // UI element text styles
+            titleLarge = base.titleLarge.copy(fontFamily = fontFamily),
+            labelLarge = base.labelLarge.copy(fontFamily = fontFamily)
+        )
+    }
+
+    fun ThemeProfile.toComposeShapes(): Shapes {
+        return Shapes(
+            extraSmall = RoundedCornerShape(cornerRadius.dp),
+            small = RoundedCornerShape(cornerRadius.dp),
+            medium = RoundedCornerShape((cornerRadius * 1.2f).dp),
+            large = RoundedCornerShape((cornerRadius * 1.5f).dp),
+            extraLarge = RoundedCornerShape((cornerRadius * 2f).dp)
+        )
     }
 }
