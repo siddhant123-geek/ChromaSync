@@ -1,11 +1,10 @@
 package com.example.chromasync.ui
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.chromasync.viewmodel.ThemeViewModel
+import com.example.chromasync.data.models.ThemeProfile
 
 open class ThemeScreen(val route: String) {
     object HomeScreen: ThemeScreen("home")
@@ -19,7 +18,7 @@ fun ThemeNavHost() {
 
     NavHost(navController = navController, startDestination = ThemeScreen.HomeScreen.route) {
         composable(ThemeScreen.HomeScreen.route) {
-            HomeScreenViews()
+            HomeScreenViews(onSaveTheme = {})
         }
     }
 

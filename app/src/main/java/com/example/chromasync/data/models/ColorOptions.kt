@@ -25,7 +25,8 @@ object ColorOptions {
     enum class SurfaceColorOption(val displayName: String, val colorValue: String) {
         PURE_WHITE("Pure White", "#FFFFFF"),           // Clean, minimal
         SOFT_GRAY("Soft Gray", "#F5F5F5"),            // Subtle, gentle
-        WARM_CREAM("Warm Cream", "#FFF8E1")           // Cozy, inviting
+        WARM_CREAM("Warm Cream", "#FFF8E1"),
+        DARK_COLOR("Dark Color", "#374151")  // Cozy, inviting
     }
 
     /**
@@ -33,9 +34,13 @@ object ColorOptions {
      * These provide different "moods" for the overall app feeling
      */
     enum class BackgroundColorOption(val displayName: String, val colorValue: String) {
-        LIGHT_CANVAS("Light Canvas", "#FFFFFB"),       // Slightly off-white, easier on eyes
-        COOL_WHITE("Cool White", "#F8F9FA"),          // Clean, modern feeling
-        WARM_WHITE("Warm White", "#FFF9C4")           // Comfortable, welcoming
+        LIGHT_CANVAS("Light Canvas", "#FFFFFB"),
+        COOL_WHITE("Cool White", "#F8F9FA"),
+        WARM_WHITE("Warm White", "#FFF9C4"),
+        SOFT_BLUSH("Soft Blush", "#FDF2F8"),
+        ROSE_MIST("Rose Mist", "#FCE7F3"),
+        PEACH_CREAM("Peach Cream", "#FFF7ED"),
+        SUNSET_GLOW("Sunset Glow", "#FFEDD5")
     }
 
     /**

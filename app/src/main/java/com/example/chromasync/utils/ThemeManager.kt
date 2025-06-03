@@ -25,12 +25,12 @@ object ThemeManager {
         return ThemeProfile(
             id = "default-theme",
             name = "Clean & Comfortable",
-            primaryColor = ColorOptions.PrimaryColorOption.MATERIAL_PURPLE.colorValue,
-            secondaryColor = ColorOptions.SecondaryColorOption.TEAL_ACCENT.colorValue,
-            surfaceColor = ColorOptions.SurfaceColorOption.PURE_WHITE.colorValue,
-            backgroundColor = ColorOptions.BackgroundColorOption.LIGHT_CANVAS.colorValue,
-            primaryTextColor = ColorOptions.PrimaryTextColorOption.DEEP_BLACK.colorValue,
-            secondaryTextColor = ColorOptions.SecondaryTextColorOption.MEDIUM_GRAY.colorValue,
+            primaryColor = PrimaryColorOption.MATERIAL_PURPLE.colorValue,
+            secondaryColor = SecondaryColorOption.TEAL_ACCENT.colorValue,
+            surfaceColor = SurfaceColorOption.SOFT_GRAY.colorValue,
+            backgroundColor = BackgroundColorOption.LIGHT_CANVAS.colorValue,
+            primaryTextColor = PrimaryTextColorOption.DEEP_BLACK.colorValue,
+            secondaryTextColor = SecondaryTextColorOption.MEDIUM_GRAY.colorValue,
             cornerRadius = CornerStyle.STANDARD.radiusValue,
             fontFamily = FontStyle.DEFAULT.fontFamily,
             isActive = true,
@@ -45,12 +45,12 @@ object ThemeManager {
             ThemeProfile(
                 id = "professional-theme",
                 name = "Professional Blue",
-                primaryColor = ColorOptions.PrimaryColorOption.OCEAN_BLUE.colorValue,
-                secondaryColor = ColorOptions.SecondaryColorOption.INDIGO_COOL.colorValue,
-                surfaceColor = ColorOptions.SurfaceColorOption.SOFT_GRAY.colorValue,
-                backgroundColor = ColorOptions.BackgroundColorOption.COOL_WHITE.colorValue,
-                primaryTextColor = ColorOptions.PrimaryTextColorOption.CHARCOAL_GRAY.colorValue,
-                secondaryTextColor = ColorOptions.SecondaryTextColorOption.BLUE_GRAY.colorValue,
+                primaryColor = PrimaryColorOption.OCEAN_BLUE.colorValue,
+                secondaryColor = SecondaryColorOption.INDIGO_COOL.colorValue,
+                surfaceColor = SurfaceColorOption.WARM_CREAM.colorValue,
+                backgroundColor = BackgroundColorOption.PEACH_CREAM.colorValue,
+                primaryTextColor = PrimaryTextColorOption.CHARCOAL_GRAY.colorValue,
+                secondaryTextColor = SecondaryTextColorOption.BLUE_GRAY.colorValue,
                 cornerRadius = CornerStyle.MINIMAL.radiusValue,
                 fontFamily = FontStyle.DEFAULT.fontFamily,
                 isActive = false,
@@ -61,12 +61,12 @@ object ThemeManager {
             ThemeProfile(
                 id = "warm-theme",
                 name = "Warm & Welcoming",
-                primaryColor = ColorOptions.PrimaryColorOption.FOREST_GREEN.colorValue,
-                secondaryColor = ColorOptions.SecondaryColorOption.AMBER_WARM.colorValue,
-                surfaceColor = ColorOptions.SurfaceColorOption.WARM_CREAM.colorValue,
-                backgroundColor = ColorOptions.BackgroundColorOption.WARM_WHITE.colorValue,
-                primaryTextColor = ColorOptions.PrimaryTextColorOption.SLATE_DARK.colorValue,
-                secondaryTextColor = ColorOptions.SecondaryTextColorOption.SOFT_GRAY.colorValue,
+                primaryColor = PrimaryColorOption.FOREST_GREEN.colorValue,
+                secondaryColor = SecondaryColorOption.AMBER_WARM.colorValue,
+                surfaceColor = SurfaceColorOption.DARK_COLOR.colorValue,
+                backgroundColor = BackgroundColorOption.ROSE_MIST.colorValue,
+                primaryTextColor = PrimaryTextColorOption.SLATE_DARK.colorValue,
+                secondaryTextColor = SecondaryTextColorOption.SOFT_GRAY.colorValue,
                 cornerRadius = CornerStyle.ROUNDED.radiusValue,
                 fontFamily = FontStyle.SERIF.fontFamily,
                 isActive = false,
@@ -133,6 +133,7 @@ object ThemeManager {
         return "$primaryColorName primary color, $cornerStyleName corners, $fontName font"
     }
 
+    // extension function to convert the theme profile colors to compose colors
     fun ThemeProfile.toComposeColorScheme(): ColorScheme {
         return lightColorScheme(
             primary = Color(android.graphics.Color.parseColor(primaryColor)),
