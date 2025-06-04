@@ -1,6 +1,7 @@
 package com.example.chromasync.ui
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,9 +22,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,31 +48,41 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import com.example.chromasync.R
 import com.example.chromasync.data.models.ThemeProfile
 import com.example.chromasync.utils.ThemeManager
 import com.example.chromasync.utils.ThemeManager.toComposeColorScheme
 import com.example.chromasync.utils.ThemeManager.toComposeShapes
 import com.example.chromasync.utils.ThemeManager.toSimpleComposeTypography
+import com.example.chromasync.utils.UiState
 import com.example.chromasync.viewmodel.ThemeViewModel
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel(),
-                    onSaveTheme: (ThemeProfile) -> Unit) {
+fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel()) {
     val currTheme by viewModel.currTheme.collectAsStateWithLifecycle()
+    Log.d("###", "HomeScreenViews: currTheme " + currTheme.id)
     var isThemeSelVis by remember { mutableStateOf(false) }
+
+    val uiState by viewModel.currThemes.collectAsStateWithLifecycle()
 
     // Wrapper used to customize the app theme
     // adding my theme configs in this wrapper
@@ -92,8 +105,8 @@ fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel(),
                         // Theme selector in app bar for easy switching
                         ThemeDropdownSelector(
                             currTheme = currTheme,
-                            themes = ThemeManager.getSampleThemes(),
-                            onThemeSel = viewModel::appTheme
+                            uiState = uiState,
+                            onThemeSel = viewModel::updateAppTheme
                         )
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
@@ -121,10 +134,10 @@ fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel(),
                 CreateThemeDialog(
                     isVisible = isThemeSelVis,
                     onDismiss = {
-                        isThemeSelVis = false // Hide dialog when dismissed
+                        isThemeSelVis = false
                     },
                     onSaveTheme = { newTheme ->
-//                        onSaveTheme(newTheme)
+                        viewModel.addThemeToDb(newTheme)
                         isThemeSelVis = false
                     }
                 )
@@ -220,11 +233,13 @@ fun TextCard(currTheme: ThemeProfile) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ThemeDropdownSelector(
+    viewModel: ThemeViewModel = hiltViewModel(),
     currTheme: ThemeProfile,
-    themes: List<ThemeProfile>,
+    uiState: UiState<List<ThemeProfile>>,
     onThemeSel: (ThemeProfile) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Box{
         IconButton(
@@ -250,33 +265,74 @@ fun ThemeDropdownSelector(
                 clippingEnabled = false
             )
         ) {
-            themes.forEach { theme ->
-                DropdownMenuItem(
-                    text = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(16.dp)
-                                    .background(
-                                        Color(android.graphics.Color.parseColor(theme.primaryColor)),
-                                        CircleShape
+            when(uiState) {
+                is UiState.Success -> {
+                    uiState.data.forEach { theme ->
+                        DropdownMenuItem(
+                            text = {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(16.dp)
+                                            .background(
+                                                Color(android.graphics.Color.parseColor(theme.primaryColor)),
+                                                CircleShape
+                                            )
                                     )
-                            )
-                            Text(
-                                text = theme.name,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    },
-                    onClick = {
-                        onThemeSel(theme)
-                        Log.d("###", "ThemeDropdownSelector: expanded is made false")
-                        expanded = false
+                                    Text(
+                                        text = theme.name,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                    // not allowing the curr theme deletion
+                                    if (theme.id != currTheme.id) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.baseline_delete_24),
+                                            contentDescription = "Delete theme",
+                                            tint = MaterialTheme.colorScheme.error,
+                                            modifier = Modifier
+                                                .size(20.dp)
+                                                .clickable {
+                                                    viewModel.deleteTheme(theme.id)
+                                                }
+                                                .padding(2.dp)
+                                        )
+                                    }
+                                }
+                            },
+                            onClick = {
+                                onThemeSel(theme)
+                                Log.d("###", "ThemeDropdownSelector: expanded is made false")
+                                expanded = false
+                            }
+                        )
                     }
-                )
+                }
+                is UiState.Error -> {
+                    IconButton(
+                        onClick = {
+                            // Allow user to retry loading themes
+                            viewModel.refreshThemes()
+                        }
+                    ) {
+                        Icon(
+                            Icons.Default.Refresh,
+                            contentDescription = "Retry loading themes",
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    Log.d("###", "ThemeDropdownSelector: coming to error state in themes from db")
+                    // error state
+                }
+                is UiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                    Log.d("###", "ThemeDropdownSelector: coming to loading state in themes from db")
+                }
             }
         }
     }
@@ -288,6 +344,8 @@ fun CreateThemeDialog(
     onDismiss: () -> Unit,
     onSaveTheme: (ThemeProfile) -> Unit
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     if (isVisible) {
         var themeName by remember { mutableStateOf("") }
         var primaryColor by remember { mutableStateOf("#6200EE") }
@@ -304,7 +362,9 @@ fun CreateThemeDialog(
             title = { Text("Create New Theme") },
             text = {
                 LazyColumn(
-                    modifier = Modifier.fillMaxWidth().heightIn(max = 500.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 500.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                 ) {
                     // Theme Name
@@ -345,22 +405,30 @@ fun CreateThemeDialog(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        val newTheme = ThemeProfile(
-                            id = UUID.randomUUID().toString(),
-                            name = themeName,
-                            primaryColor = primaryColor,
-                            secondaryColor = secondaryColor,
-                            surfaceColor = surfaceColor,
-                            backgroundColor = backgroundColor,
-                            primaryTextColor = primaryTextColor,
-                            secondaryTextColor = secondaryTextColor,
-                            cornerRadius = cornerRadius,
-                            fontFamily = fontFamily,
-                            isActive = false,
-                            lastModified = System.currentTimeMillis()
-                        )
-                        onSaveTheme(newTheme)
-                        onDismiss()
+                        if(themeName.isEmpty()) {
+                            scope.launch {
+                                Toast.makeText(context, "Please enter a valid theme name",
+                                    Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        else {
+                            val newTheme = ThemeProfile(
+                                id = UUID.randomUUID().toString(),
+                                name = themeName,
+                                primaryColor = primaryColor,
+                                secondaryColor = secondaryColor,
+                                surfaceColor = surfaceColor,
+                                backgroundColor = backgroundColor,
+                                primaryTextColor = primaryTextColor,
+                                secondaryTextColor = secondaryTextColor,
+                                cornerRadius = cornerRadius,
+                                fontFamily = fontFamily,
+                                isActive = false,
+                                lastModified = System.currentTimeMillis()
+                            )
+                            onSaveTheme(newTheme)
+                            onDismiss()
+                        }
                     }
                 ) {
                     Text("Save")

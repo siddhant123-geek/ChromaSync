@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class ThemeProfile(
+    @PrimaryKey
     @ColumnInfo(name = "id")
     val id: String,
     @ColumnInfo(name = "name")

@@ -18,7 +18,7 @@ fun ThemeNavHost() {
 
     NavHost(navController = navController, startDestination = ThemeScreen.HomeScreen.route) {
         composable(ThemeScreen.HomeScreen.route) {
-            HomeScreenViews(onSaveTheme = {})
+            HomeScreenViews()
         }
     }
 
