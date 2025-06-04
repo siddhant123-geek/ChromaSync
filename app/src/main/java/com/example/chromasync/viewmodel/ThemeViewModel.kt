@@ -31,6 +31,9 @@ class ThemeViewModel @Inject constructor(val repo: ThemeRepository): ViewModel()
 
     fun updateAppTheme(newTheme: ThemeProfile) {
         _currTheme.value=newTheme
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.updateActiveTheme(newTheme.id)
+        }
     }
 
     fun addThemeToDb(theme: ThemeProfile) {
@@ -45,6 +48,12 @@ class ThemeViewModel @Inject constructor(val repo: ThemeRepository): ViewModel()
         viewModelScope.launch(Dispatchers.IO) {
             repo.getAllThemes().collect {
                 _currThemes.value=UiState.Success(it)
+                for(theme in it) {
+                    if(theme.isActive) {
+                        _currTheme.value=theme
+                        break
+                    }
+                }
             }
         }
     }

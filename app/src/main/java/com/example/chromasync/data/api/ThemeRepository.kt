@@ -29,4 +29,8 @@ class ThemeRepository @Inject constructor(val networkService: SyncProfileService
         db.dao().deleteTheme(id)
     }
 
+    suspend fun updateActiveTheme(id: String) {
+        db.dao().markOthersInactiveAndCurrAsActive(id)
+    }
+
 }

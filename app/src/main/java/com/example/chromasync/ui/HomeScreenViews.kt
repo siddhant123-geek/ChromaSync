@@ -98,7 +98,7 @@ fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel()) {
                     title = {
                         Text(
                             "ChromaSync Home",
-                            style = MaterialTheme.typography.titleLarge // Typography from current theme
+                            style = MaterialTheme.typography.titleLarge
                         )
                     },
                     actions = {
