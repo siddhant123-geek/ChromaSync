@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -77,7 +78,7 @@ import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel()) {
+fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel(), onNextClick: (String)-> Unit) {
     val currTheme by viewModel.currTheme.collectAsStateWithLifecycle()
     Log.d("###", "HomeScreenViews: currTheme " + currTheme.id)
     var isThemeSelVis by remember { mutableStateOf(false) }
@@ -89,7 +90,7 @@ fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel()) {
     MaterialTheme(
         colorScheme = currTheme.toComposeColorScheme(),
         typography = currTheme.toSimpleComposeTypography(),
-        shapes = currTheme.toComposeShapes()
+        shapes = currTheme.toComposeShapes(),
     ) {
         Scaffold(
             topBar = {
@@ -149,6 +150,17 @@ fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel()) {
 
                     Spacer(Modifier.height(8.dp))
                     TextCard(currTheme)
+
+                    Button(
+                        onClick = {
+                            onNextClick.invoke("list")
+                        },
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(16.dp)
+                    ) {
+                        Text("Next")
+                    }
                 }
             }
         )
@@ -284,7 +296,8 @@ fun ThemeDropdownSelector(
                                     )
                                     Text(
                                         text = theme.name,
-                                        style = MaterialTheme.typography.bodyMedium
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        modifier = Modifier.weight(1f)
                                     )
                                     // not allowing the curr theme deletion
                                     if (theme.id != currTheme.id) {

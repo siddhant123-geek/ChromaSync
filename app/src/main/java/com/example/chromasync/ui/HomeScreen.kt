@@ -9,7 +9,6 @@ import com.example.chromasync.data.models.ThemeProfile
 open class ThemeScreen(val route: String) {
     object HomeScreen: ThemeScreen("home")
     object ListScreen: ThemeScreen("list")
-    object SettingScreen: ThemeScreen("setting")
 }
 
 @Composable
@@ -18,7 +17,12 @@ fun ThemeNavHost() {
 
     NavHost(navController = navController, startDestination = ThemeScreen.HomeScreen.route) {
         composable(ThemeScreen.HomeScreen.route) {
-            HomeScreenViews()
+            HomeScreenViews {
+                navController.navigate(it)
+            }
+        }
+        composable(ThemeScreen.ListScreen.route) {
+            ListScreenViews()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.chromasync.utils
 
+import android.util.Log
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -149,11 +150,14 @@ object ThemeManager {
     }
 
     fun ThemeProfile.toSimpleComposeTypography(): Typography {
+        Log.d("###", "toSimpleComposeTypography: fontFam " + fontFamily)
         val fontFamily = when (fontFamily) {
-            "serif" -> FontFamily.Serif
-            "monospace" -> FontFamily.Monospace
+            "Serif" -> FontFamily.Serif
+            "Monospace" -> FontFamily.Monospace
             else -> FontFamily.Default
         }
+
+        Log.d("###", "toSimpleComposeTypography: font style " + fontFamily.toString())
 
         // Start with defaults and only modify what we need
         val base = Typography()
