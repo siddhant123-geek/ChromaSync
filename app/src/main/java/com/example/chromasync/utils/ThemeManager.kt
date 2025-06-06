@@ -9,7 +9,6 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.chromasync.data.models.ColorOptions
 import com.example.chromasync.data.models.CornerStyle
 import com.example.chromasync.data.models.FontStyle
 import com.example.chromasync.data.models.ThemeProfile
@@ -39,6 +38,7 @@ object ThemeManager {
         )
     }
 
+    // get some pre-defined themes for easy usage
     fun getSampleThemes(): List<ThemeProfile> {
         return listOf(
             getDefaultTheme(),
@@ -74,64 +74,6 @@ object ThemeManager {
                 lastModified = 0L
             )
         )
-    }
-
-    // Get all available options for each attribute
-    fun getPrimaryColorOptions(): List<ColorOptions.PrimaryColorOption> = ColorOptions.PrimaryColorOption.values().toList()
-    fun getSecondaryColorOptions(): List<ColorOptions.SecondaryColorOption> = ColorOptions.SecondaryColorOption.values().toList()
-    fun getSurfaceColorOptions(): List<ColorOptions.SurfaceColorOption> = ColorOptions.SurfaceColorOption.values().toList()
-    fun getBackgroundColorOptions(): List<ColorOptions.BackgroundColorOption> = ColorOptions.BackgroundColorOption.values().toList()
-    fun getPrimaryTextColorOptions(): List<ColorOptions.PrimaryTextColorOption> = ColorOptions.PrimaryTextColorOption.values().toList()
-    fun getSecondaryTextColorOptions(): List<ColorOptions.SecondaryTextColorOption> = ColorOptions.SecondaryTextColorOption.values().toList()
-    fun getCornerRadiusOptions(): List<CornerStyle> = CornerStyle.values().toList()
-    fun getFontFamilyOptions(): List<FontStyle> = FontStyle.values().toList()
-
-    /**
-     * Helper functions to find the current selection for each attribute
-     * These are useful when editing an existing theme profile
-     */
-    fun findPrimaryColorOption(colorValue: String): PrimaryColorOption? {
-        return PrimaryColorOption.values().find { it.colorValue == colorValue }
-    }
-
-    fun findSecondaryColorOption(colorValue: String): SecondaryColorOption? {
-        return SecondaryColorOption.values().find { it.colorValue == colorValue }
-    }
-
-    fun findSurfaceColorOption(colorValue: String): SurfaceColorOption? {
-        return SurfaceColorOption.values().find { it.colorValue == colorValue }
-    }
-
-    fun findBackgroundColorOption(colorValue: String): BackgroundColorOption? {
-        return BackgroundColorOption.values().find { it.colorValue == colorValue }
-    }
-
-    fun findPrimaryTextColorOption(colorValue: String): PrimaryTextColorOption? {
-        return PrimaryTextColorOption.values().find { it.colorValue == colorValue }
-    }
-
-    fun findSecondaryTextColorOption(colorValue: String): SecondaryTextColorOption? {
-        return SecondaryTextColorOption.values().find { it.colorValue == colorValue }
-    }
-
-    fun findCornerRadiusOption(radiusValue: Float): CornerStyle? {
-        return CornerStyle.values().find { it.radiusValue == radiusValue }
-    }
-
-    fun findFontFamilyOption(fontValue: String): FontStyle? {
-        return FontStyle.values().find { it.fontFamily == fontValue }
-    }
-
-    /**
-     * Creates a description of the complete theme for preview purposes
-     * This helps users understand what their selections will look like together
-     */
-    fun getThemeDescription(profile: ThemeProfile): String {
-        val primaryColorName = findPrimaryColorOption(profile.primaryColor)?.displayName ?: "Unknown"
-        val cornerStyleName = findCornerRadiusOption(profile.cornerRadius)?.displayName ?: "Unknown"
-        val fontName = findFontFamilyOption(profile.fontFamily)?.displayName ?: "Unknown"
-
-        return "$primaryColorName primary color, $cornerStyleName corners, $fontName font"
     }
 
     // extension function to convert the theme profile colors to compose colors
