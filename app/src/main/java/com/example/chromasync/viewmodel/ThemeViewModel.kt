@@ -23,6 +23,8 @@ class ThemeViewModel @Inject constructor(val repo: ThemeRepository): ViewModel()
     private val _currTheme: MutableStateFlow<ThemeProfile> = MutableStateFlow(ThemeManager.getDefaultTheme())
     val currTheme: StateFlow<ThemeProfile> = _currTheme
 
+    var isThemeReady = false
+
     private val _currThemes: MutableStateFlow<UiState<List<ThemeProfile>>> =
     MutableStateFlow(UiState.Success(emptyList()))
     val currThemes: StateFlow<UiState<List<ThemeProfile>>> =_currThemes
@@ -56,7 +58,9 @@ class ThemeViewModel @Inject constructor(val repo: ThemeRepository): ViewModel()
                 _currThemes.value=UiState.Success(it)
                 for(theme in it) {
                     if(theme.isActive) {
+                        Log.d("###", "observeDbThemes: curr theme is set")
                         _currTheme.value=theme
+                        isThemeReady=true
                         break
                     }
                 }

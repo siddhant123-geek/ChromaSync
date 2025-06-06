@@ -80,7 +80,6 @@ import java.util.UUID
 @Composable
 fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel(), onNextClick: (String)-> Unit) {
     val currTheme by viewModel.currTheme.collectAsStateWithLifecycle()
-    Log.d("###", "HomeScreenViews: currTheme " + currTheme.id)
     var isThemeSelVis by remember { mutableStateOf(false) }
 
     val uiState by viewModel.currThemes.collectAsStateWithLifecycle()
