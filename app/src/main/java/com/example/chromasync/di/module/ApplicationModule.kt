@@ -18,7 +18,7 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideSyncProfileService(): SyncProfileService {
-        return SyncProfileService
+        return SyncProfileService()
     }
 
     @Singleton

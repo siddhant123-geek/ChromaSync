@@ -5,12 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chromasync.data.api.ThemeRepository
 import com.example.chromasync.data.models.ThemeProfile
+import com.example.chromasync.utils.SyncState
 import com.example.chromasync.utils.ThemeManager
 import com.example.chromasync.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.log
@@ -24,6 +26,10 @@ class ThemeViewModel @Inject constructor(val repo: ThemeRepository): ViewModel()
     private val _currThemes: MutableStateFlow<UiState<List<ThemeProfile>>> =
     MutableStateFlow(UiState.Success(emptyList()))
     val currThemes: StateFlow<UiState<List<ThemeProfile>>> =_currThemes
+
+
+    private val _syncState: MutableStateFlow<SyncState> = MutableStateFlow(SyncState.NotSynced)
+    val syncState: StateFlow<SyncState> =_syncState
 
     init {
         observeDbThemes()
@@ -74,5 +80,26 @@ class ThemeViewModel @Inject constructor(val repo: ThemeRepository): ViewModel()
         }
     }
 
+    fun syncThemes(successCallback: (Int)-> Unit) {
+        Log.d("###", "ViewModel: syncThemes called")
+
+        // to prevent repeated sync hits when the curr sync is not completed
+        if (_syncState.value == SyncState.Syncing) {
+            Log.d("###", "ViewModel: Sync already in progress, ignoring")
+            return
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.syncThemes(successCallback)
+                .catch { exception ->
+                    Log.d("###", "ViewModel: Exception in flow - ${exception.message}")
+                    _syncState.value = SyncState.SyncError
+                }
+                .collect { state ->
+                    Log.d("###", "ViewModel: Received state - $state")
+                    _syncState.value = state
+                }
+        }
+    }
 
 }
