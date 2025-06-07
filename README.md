@@ -1,5 +1,6 @@
 # Chromasync
-- This is my ChromaSync application project, where I have used the modern  best practices  and framework/libraries offered by Android Jetpack. Where the user can add new theme profiles, use existing ones.
+- This is my ChromaSync application project, where I have used the modern  best practices  and framework/libraries offered by Android Jetpack.
+- In this application, the user can add new theme profiles, use existing ones.
 - The user can also delete some existing ones.
 - The user can also sync the profiles with the server and store the local profiles in cloud.
 
