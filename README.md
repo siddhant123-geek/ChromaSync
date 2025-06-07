@@ -10,9 +10,9 @@
 
 
 # Final project uses(Major libraries/frameworks)
-- **Dagger Hilt** for Dependency injection
-- **Jet pack compose** for UI
-- **RoomDatabase** as the persistent library
+- **Dagger Hilt** - for Dependency injection
+- **Jet pack compose** - for UI
+- **RoomDatabase** - as the persistent library
 - **Coroutine** - For performing asynchronous fetching of data from db or network
 - **Flow** - Asynchronous data type used
 - **StateFlow** - Obervable asynchronous data structure used
@@ -20,7 +20,7 @@
 
 # Detailed summary of the screens implemented
 # HomeScreenViews
-- It has a bunch of different type of views namely **Card**, **Button**, **Floating Action Button** etc showcasing the currently applied theme to the application.
+- It has a bunch of different type of views namely **Card**, **Button**, **Floating Action Button**, **Text** etc showcasing the currently applied theme in the application.
 - With the floating action button cta, the user can create a new theme profile for the application and use it.
 - The list of all the created theme profiles can be seen from the dropdown on the top bar.
 - Each theme except the currently applied theme can be deleted.
