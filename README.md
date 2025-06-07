@@ -27,3 +27,61 @@
 - This screen has a list of names of few algorithms(Used algorithms's names for the listing purpose, anything else can also be used), each item also has certain fontstyle, color etc as per the applied theme.
 - This screen has a sync button too where the user can sync the local profiles with those at the server.
 - In case there exists a theme with the same name as in the database, then the theme profile with the latest modified time is given priority.
+
+# Dependencies used 
+# UI(Jetpack Compose)
+    implementation ("androidx.activity:activity-compose:1.7.2")
+    implementation (platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation ("androidx.compose.ui:ui")
+    implementation ("androidx.compose.ui:ui-graphics")
+    implementation ("androidx.compose.ui:ui-tooling-preview")
+    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
+# Navigation
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation ("androidx.navigation:navigation-compose:2.6.0")
+    
+# Room Db
+    implementation ("androidx.room:room-runtime:2.5.0")
+    implementation ("androidx.room:room-ktx:2.5.0")
+    kapt ("androidx.room:room-compiler:2.5.0")
+
+# Dagger Hilt
+    implementation ("com.google.dagger:hilt-android:2.44")
+    kapt ("com.google.dagger:hilt-compiler:2.44")
+    
+**Project structure**
+app/
+├── manifests/
+├── java/
+└── kotlin+java/
+    └── com.example.chromasync/
+        ├── data/
+        │   ├── api/
+        │   │   ├── SyncProfileService.kt
+        │   │   └── ThemeRepository.kt
+        │   ├── local/
+        │   │   ├── dao/
+        │   │   │   ├── ProfileThemeDao.kt
+        │   │   │   └── ChromaSyncDatabase.kt
+        │   │   └── models/
+        │   │       ├── AlgoItem.kt
+        │   │       ├── ColorOptions.kt
+        │   │       ├── CornerStyle.kt
+        │   │       ├── FontStyle.kt
+        │   │       └── ThemeProfile.kt
+        ├── di.module/
+        │   └── ApplicationModule.kt
+        ├── ui/
+        │   ├── HomeScreen.kt
+        │   ├── HomeScreenViews.kt
+        │   └── ListScreenViews.kt
+        ├── utils/
+        │   ├── SyncState.kt
+        │   ├── ThemeManager.kt
+        │   └── UiState.kt
+        ├── viewmodel/
+        │   └── ThemeViewModel.kt
+        ├── ChromaSyncApplication.kt
+        └── MainActivity.kt
