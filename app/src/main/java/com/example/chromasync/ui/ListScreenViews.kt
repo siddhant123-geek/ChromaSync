@@ -100,6 +100,7 @@ fun ListScreenViews(viewModel: ThemeViewModel = hiltViewModel()) {
                                 viewModel.syncThemes {
                                     Log.d("###", "ListScreenViews: sync items count in callback " + it)
                                     scope.launch(Dispatchers.Main) {
+                                        // for number of items synced info
                                         Toast.makeText(context, "Synced items count : " + it, Toast.LENGTH_LONG)
                                         .show()
                                     }

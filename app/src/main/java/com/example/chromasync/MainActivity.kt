@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val splashScreen = installSplashScreen()
 
+        // setting the splash screen till the
+        // last applied theme is not loaded
         setupSplashScreen(splashScreen)
 
         setContent {

@@ -13,6 +13,7 @@ class SyncProfileService {
     private var lastSynced: Long = 0L
 
     suspend fun syncThemeProfiles(themes: List<ThemeProfile>, succCallback: (Int)-> Unit) {
+        // delay to simulate an async operation
         delay(2000)
         if (Random.nextBoolean()) {
             Log.d("###", "syncThemeProfiles: error in sync throwing error")
@@ -58,6 +59,7 @@ class SyncProfileService {
             }
         }
 
+        // saving the last synced time
         lastSynced=System.currentTimeMillis()
 
         Log.d("###", "resolveConflictIfAnyAndSync: syncedItems " + syncItems)

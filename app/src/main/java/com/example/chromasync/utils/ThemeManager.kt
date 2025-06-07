@@ -21,6 +21,7 @@ import com.example.chromasync.data.models.ColorOptions.SecondaryTextColorOption
 
 object ThemeManager {
 
+    // a default theme to use in case there is no user defined theme
     fun getDefaultTheme(): ThemeProfile {
         return ThemeProfile(
             id = "default-theme",
@@ -91,6 +92,7 @@ object ThemeManager {
         )
     }
 
+    // extension function to convert the theme profile font styles to compose typography
     fun ThemeProfile.toSimpleComposeTypography(): Typography {
         Log.d("###", "toSimpleComposeTypography: fontFam " + fontFamily)
         val fontFamily = when (fontFamily) {
@@ -119,6 +121,7 @@ object ThemeManager {
         )
     }
 
+    // extension function to convert the theme profile shapes to compose shapes
     fun ThemeProfile.toComposeShapes(): Shapes {
         return Shapes(
             extraSmall = RoundedCornerShape(cornerRadius.dp),
