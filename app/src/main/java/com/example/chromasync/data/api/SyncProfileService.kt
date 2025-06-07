@@ -1,14 +1,11 @@
 package com.example.chromasync.data.api
 
-import android.content.SyncResult
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.example.chromasync.data.models.ThemeProfile
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
-class SyncProfileService() {
+class SyncProfileService {
 
     // simulating a server with a lit of stored themes
     // and a last synced time
@@ -61,7 +58,7 @@ class SyncProfileService() {
             }
         }
 
-//        lastSynced=System.currentTimeMillis()
+        lastSynced=System.currentTimeMillis()
 
         Log.d("###", "resolveConflictIfAnyAndSync: syncedItems " + syncItems)
         callback.invoke(syncItems)

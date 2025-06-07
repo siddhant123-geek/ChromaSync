@@ -95,7 +95,8 @@ fun ListScreenViews(viewModel: ThemeViewModel = hiltViewModel()) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_sync_24),
                             contentDescription = "Sync option",
-                            Modifier.clickable {
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier.clickable {
                                 viewModel.syncThemes {
                                     Log.d("###", "ListScreenViews: sync items count in callback " + it)
                                     scope.launch(Dispatchers.Main) {

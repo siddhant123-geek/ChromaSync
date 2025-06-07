@@ -64,6 +64,7 @@ class ThemeViewModel @Inject constructor(val repo: ThemeRepository): ViewModel()
                         break
                     }
                 }
+                isThemeReady=true
             }
         }
     }

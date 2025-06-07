@@ -126,7 +126,8 @@ fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel(), onNextClick: (St
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Add new theme"
+                        contentDescription = "Add new theme",
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             },
@@ -158,7 +159,8 @@ fun HomeScreenViews(viewModel: ThemeViewModel= hiltViewModel(), onNextClick: (St
                             .align(Alignment.End)
                             .padding(16.dp)
                     ) {
-                        Text("Next")
+                        Text("Next",
+                            style = MaterialTheme.typography.titleLarge)
                     }
                 }
             }
