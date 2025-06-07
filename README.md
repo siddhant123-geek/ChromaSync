@@ -1,5 +1,7 @@
 # NewsAppMVVM
-This is my ChromaSync application project, where I have used the modern  best practices  and framework/libraries offered by Android Jetpack.
+- This is my ChromaSync application project, where I have used the modern  best practices  and framework/libraries offered by Android Jetpack. Where the user can add new theme profiles, use existing ones.
+- The user can also delete some existing ones.
+- The user can also sync the profiles with the server and store the local profiles in cloud.
 
 
 # Architecture used is MVVM(Model View View Model)
@@ -21,3 +23,7 @@ This is my ChromaSync application project, where I have used the modern  best pr
 - With the floating action button cta, the user can create a new theme profile for the application and use it.
 - The list of all the created theme profiles can be seen from the dropdown on the top bar.
 - Each theme except the currently applied theme can be deleted.
+# ListScreenViews 
+- This screen has a list of names of few algorithms(Used algorithms's names for the listing purpose, anything else can also be used), each item also has certain fontstyle, color etc as per the applied theme.
+- This screen has a sync button too where the user can sync the local profiles with those at the server.
+- In case there exists a theme with the same name as in the database, then the theme profile with the latest modified time is given priority.
