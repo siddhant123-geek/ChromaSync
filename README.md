@@ -53,36 +53,5 @@
     kapt ("com.google.dagger:hilt-compiler:2.44")
     
 **Project structure**
-app/
-├── manifests/
-├── java/
-└── kotlin+java/
-    └── com.example.chromasync/
-        ├── data/
-        │   ├── api/
-        │   │   ├── SyncProfileService.kt
-        │   │   └── ThemeRepository.kt
-        │   ├── local/
-        │   │   ├── dao/
-        │   │   │   ├── ProfileThemeDao.kt
-        │   │   │   └── ChromaSyncDatabase.kt
-        │   │   └── models/
-        │   │       ├── AlgoItem.kt
-        │   │       ├── ColorOptions.kt
-        │   │       ├── CornerStyle.kt
-        │   │       ├── FontStyle.kt
-        │   │       └── ThemeProfile.kt
-        ├── di.module/
-        │   └── ApplicationModule.kt
-        ├── ui/
-        │   ├── HomeScreen.kt
-        │   ├── HomeScreenViews.kt
-        │   └── ListScreenViews.kt
-        ├── utils/
-        │   ├── SyncState.kt
-        │   ├── ThemeManager.kt
-        │   └── UiState.kt
-        ├── viewmodel/
-        │   └── ThemeViewModel.kt
-        ├── ChromaSyncApplication.kt
-        └── MainActivity.kt
+
+<img width="393" alt="image" src="https://github.com/user-attachments/assets/3ef0f094-b2c5-4a90-b586-98952c4e98a1" />
